@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
     public Transform sparkles;
     public bool myturn;
     private int available;
+
 	// Use this for initialization
 	void Start () {
         available = 10;

@@ -7,6 +7,7 @@ public class Unit : MonoBehaviour
     public int attack;
     public int health;
     public int shield;
+
     // Use this for initialization
     void Start()
     {

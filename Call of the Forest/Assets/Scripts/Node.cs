@@ -12,6 +12,7 @@ public class Node : MonoBehaviour {
     private Stack<Unit> allUnits;
     private float heuristic;
     public bool hasmoved;
+
     // Use this for initialization
     void Start () {
         attack = 0;
