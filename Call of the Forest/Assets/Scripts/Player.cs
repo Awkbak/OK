@@ -22,58 +22,101 @@ public class Player : MonoBehaviour {
         sparkles.position = mainBase.transform.position;
 	}
     
+    void Gomyturn()
+    {
+        available += 2;
+        while (available > 0)
+        {
+            assign(Random.Range(0, 3));
+        }
+        findbestMove(mainBase);
+        next = selection;
+        prev.attackNode(next);
+        next.hasmoved = true;
+        prev = null;
+        next = null;
+    }
+
+    void findbestMove(Node b)
+    {
+        Node s = b;
+        var h1 = s.l1.getHeuristic() - s.getHeuristic();
+        var h2 = s.l2.getHeuristic() - s.getHeuristic();
+        if (s.team == 2)
+        {
+            if (!s.hasmoved)
+            {
+                prev = s;
+                if (h1 > h2)
+                    findbestMove(s.l2);
+                else
+                    findbestMove(s.l1);
+            }
+        }
+        else
+        {
+            next = s;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
         if (myturn)
         {
-            if (Input.GetKeyDown("w"))
+            if (!isComputer)
             {
-                if (selection.r1 != null)
+                if (Input.GetKeyDown("w"))
                 {
-                    selection = selection.r1;
-                    sparkles.transform.position = selection.transform.position;
-                }
-            }
-            else if (Input.GetKeyDown("s"))
-            {
-                if (selection.r2 != null)
-                {
-                    selection = selection.r2;
-                    sparkles.transform.position = selection.transform.position;
-                }
-            }
-            else if (Input.GetKeyDown("q"))
-            {
-                if (selection.l1 != null)
-                {
-                    selection = selection.l1;
-                    sparkles.transform.position = selection.transform.position;
-                }
-            }
-            else if (Input.GetKeyDown("a"))
-            {
-                if (selection.GetComponent<Node>().l2 != null)
-                {
-                    selection = selection.l2;
-                    sparkles.transform.position = selection.transform.position;
-                }
-            }
-            else if (Input.GetKeyDown("k"))
-            {
-                if (selection != null)
-                {
-                    if (prev != null)
+                    if (selection.r1 != null)
                     {
-                        if(!prev.hasmoved)
+                        selection = selection.r1;
+                        sparkles.transform.position = selection.transform.position;
+                    }
+                }
+                else if (Input.GetKeyDown("s"))
+                {
+                    if (selection.r2 != null)
+                    {
+                        selection = selection.r2;
+                        sparkles.transform.position = selection.transform.position;
+                    }
+                }
+                else if (Input.GetKeyDown("q"))
+                {
+                    if (selection.l1 != null)
+                    {
+                        selection = selection.l1;
+                        sparkles.transform.position = selection.transform.position;
+                    }
+                }
+                else if (Input.GetKeyDown("a"))
+                {
+                    if (selection.GetComponent<Node>().l2 != null)
+                    {
+                        selection = selection.l2;
+                        sparkles.transform.position = selection.transform.position;
+                    }
+                }
+                else if (Input.GetKeyDown("k"))
+                {
+                    if (selection != null)
+                    {
+                        if (prev != null)
                         {
-                            if(selection.Equals(prev.r1) || selection.Equals(prev.r2))
+                            if (!prev.hasmoved)
                             {
-                                next = selection;
-                                prev.attackNode(next);
-                                next.hasmoved = true;
-                                prev = null;
-                                next = null;
+                                if (prev.numberUnits() > 0)
+                                {
+                                    if (selection.Equals(prev.r1) || selection.Equals(prev.r2))
+                                    {
+                                        next = selection;
+                                        prev.attackNode(next);
+                                        next.hasmoved = true;
+                                        prev = null;
+                                        next = null;
+                                    }
+                                }
                             }
                         }
                         else

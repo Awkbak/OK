@@ -21,6 +21,10 @@ public class Node : MonoBehaviour {
         hasmoved = false;
 	}
 
+    public int getHeuristic()
+    {
+        return attack + health + shield;
+    }
     public void addUnit(Transform ds)
     {
         int i = allUnits.Count;
@@ -56,6 +60,10 @@ public class Node : MonoBehaviour {
         {
             bleh.transferunit(allUnits.Pop().transform);
         }
+    }
+    public int numberUnits()
+    {
+        return allUnits.Count;
     }
 	
 	// Update is called once per frame
