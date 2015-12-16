@@ -25,6 +25,7 @@ public class Player : MonoBehaviour {
     
     public void Gomyturn()
     {
+        available += 2;
         while (available > 0)
         {
             assign(Random.Range(0,3));
@@ -40,17 +41,29 @@ public class Player : MonoBehaviour {
     void findbestMove(Node b)
     {
         Node s = b;
-        var h1 = s.l1.getHeuristic() - s.getHeuristic();
-        var h2 = s.l2.getHeuristic() - s.getHeuristic();
+        var h1 = 0;
+        var h2 = 0;
+        if (s.l1 == null) h1 = 0;
+        else
+        h1 = s.l1.getHeuristic() - s.getHeuristic();
+        if (s.l2 == null) h2 = 0;
+        else
+        h2 = s.l2.getHeuristic() - s.getHeuristic();
         if (s.team == 2)
         {
             if (!s.hasmoved)
             {
                 prev = s;
                 if (h1 > h2)
+                { 
+                    if(s.l2 != null)
                     findbestMove(s.l2);
+                }
                 else
+                {
+                    if(s.l1 != null)
                     findbestMove(s.l1);
+                }
             }
         }
         else

@@ -9,7 +9,7 @@ public class Node : MonoBehaviour {
     public int team;
     public bool mainbase;
     public Node r1, r2, l1, l2;
-    private Stack<Unit> allUnits;
+    public Stack<Unit> allUnits;
     private float heuristic;
     public bool hasmoved;
 
@@ -57,9 +57,36 @@ public class Node : MonoBehaviour {
 
     public void attackNode(Node bleh)
     {
-        while (allUnits.Count > 0)
+        if(Mathf.Abs(bleh.team - team) == 1)
         {
-            bleh.transferunit(allUnits.Pop().transform);
+            var healthdif = bleh.health;
+            var remattack = attack - bleh.shield;
+            if (bleh.shield > 0)
+            {
+                bleh.shield -= attack;
+                if (bleh.shield < 0)
+                {
+                    bleh.shield = 0;
+                    bleh.health -= remattack;
+                    healthdif -= bleh.health;
+                    for(int i = 0; i< healthdif; i++)
+                    {
+                        Transform whatever = bleh.allUnits.Pop().transform;
+                    }
+                }
+            }
+        }
+        if (bleh.allUnits.Count == 0)
+        {
+            while (allUnits.Count > 0)
+            {
+                bleh.transferunit(allUnits.Pop().transform);
+            }
+            bleh.team = team;
+            if (!mainbase)
+            {
+                team = 0;
+            }
         }
     }
     public int numberUnits()

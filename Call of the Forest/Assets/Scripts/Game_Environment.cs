@@ -37,5 +37,9 @@ public class Game_Environment : MonoBehaviour {
         {
             p2.Gomyturn();
         }
+        else
+        {
+            p1.StartTurn();
+        }
     }
 }
