@@ -7,6 +7,7 @@ public class Game_Environment : MonoBehaviour {
     public Player p1;
     public Player p2;
     public static float difficulty;
+    public Transform nodecol;
 
 	// Use this for initialization
 	void Start () {
@@ -26,7 +27,15 @@ public class Game_Environment : MonoBehaviour {
     //Changes turns
     public void turns()
     {
+        for(int i = 0; i<nodecol.childCount;i++)
+        {
+            nodecol.GetChild(i).GetComponent<Node>().hasmoved = false;
+        }
         p1.myturn = !p1.myturn;
         p2.myturn = !p2.myturn;
+        if (p2.myturn)
+        {
+            p2.Gomyturn();
+        }
     }
 }

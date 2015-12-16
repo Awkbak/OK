@@ -23,19 +23,18 @@ public class Player : MonoBehaviour {
         sparkles.position = mainBase.transform.position;
 	}
     
-    void Gomyturn()
+    public void Gomyturn()
     {
-        available += 2;
         while (available > 0)
         {
-            assign(Random.Range(0, 3));
+            assign(Random.Range(0,3));
         }
         findbestMove(mainBase);
-        next = selection;
         prev.attackNode(next);
         next.hasmoved = true;
         prev = null;
         next = null;
+        environment.turns();
     }
 
     void findbestMove(Node b)
